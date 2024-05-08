@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Services;
+
+use GuzzleHttp\Client;
+
+class OpenWeatherService
+{
+    protected $client;
+
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
+
+    public function getWeather($city)
+    {
+        $apiKey = config('services.openweather.api_key');
+        dd($apiKey);
+        $url = "https://api.openweathermap.org/data/2.5/weather?q={$city}&appid=2c0e009d837d96123f3730b0eb7de356";
+        $response = $this->client->get($url);
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+}
